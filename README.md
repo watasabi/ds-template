@@ -1,13 +1,13 @@
-# Data Project Template
+# Data Science Project Template
 
 ## Authors
 - [Watasabi](https://github.com/watasabi)
 - [Blaugi](https://github.com/blaugi)
 
 ## Getting Started
-
+TODO
 ```bash
-uvx cookiecutter gh:RepoName
+uvx cookiecutter gh:RepoName 
 ```
 
 ## Project Organization
