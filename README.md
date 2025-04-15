@@ -1,8 +1,8 @@
 # Data Project Template
 
-## Author
-- [Watasabi](TODO)
-- [Blaugi](TODO)
+## Authors
+- [Watasabi](https://github.com/watasabi)
+- [Blaugi](https://github.com/blaugi)
 
 ## Getting Started
 
