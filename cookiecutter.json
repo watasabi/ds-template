@@ -6,7 +6,7 @@
     "__prompts__": {
           "project_name": "Select your project name:",
           "project_dir": "Select your project directory name:",
-          "project_desc": "A short project description:",
+          "project_desc": "A short project description:"
       }, 
       "_extensions": [
         "local_extensions.AdditionalPrompts"
