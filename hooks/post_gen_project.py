@@ -65,7 +65,7 @@ def create_gitingore():
 def init_uv():
     try:
         subprocess.check_call(
-            ["uv", "init"],
+            ["uv", "init", "--vcs", "none"],
             cwd=PROJECT_DIRECTORY,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     if "{{cookiecutter.init_uv}}":
         init_uv()
 
-    if "{{ cookiecutter.use_git }}" == "Yes":
+    if "{{ cookiecutter.use_git }}":
         init_git()
 
     if "{{ cookiecutter.configure_remote}}":
