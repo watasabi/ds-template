@@ -13,14 +13,22 @@
 {{ ask_to_save(cookiecutter.email, "email")}}
 {% endif %}
 
-
 {{ cookiecutter.update({"use_git": prompt_user_choices("use_git", ["Yes", "No"])}) }}
+
 
 {% if cookiecutter.use_git == "Yes" %}
 {{ cookiecutter.update({"default_branch": branch_name("default_branch", "main")}) }}
+{{ cookiecutter.update({"configure_remote": prompt_user_yes_no("configure_remote")}) }}
 {% else %}
 {{ cookiecutter.update({"default_branch": ''}) }}
 {% endif %}
 
+{% if cookiecutter.configure_remote %}
+{{ cookiecutter.update({"remote_url": prompt_user("remote_url", "remote")})}}
+{% else %}
+{{ cookiecutter.update({"remote_url": ''}) }}
+{% endif %}
+
+{{ cookiecutter.update({"init_uv": prompt_user_yes_no("init_uv")}) }}
 """
 

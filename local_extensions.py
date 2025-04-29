@@ -7,7 +7,11 @@ ADDITIONAL_PROMPTS = {
     "default_branch": "[Extra] Name for the default branch",
     "full_name":  "  [1/3] Your name",
     "email": "  [2/3] Your email",
-    "use_git": "  [3/3] Would you like to initialize a git repository?",
+    "use_git": "  [3/4] Would you like to initialize a git repository?",
+    "configure_remote": "[Extra] Would you like to setup a remote?",
+    "remote_url": "[Extra] What is the remote url?",
+    
+    "init_uv": "  [4/4] Would you like to setup UV?",
 
     "save_mail":"[Extra] No email or a different one was found in git config, do you want to save this email to it?",
     "save_name":"[Extra] No name or a different one was found in git config, do you want to save this name to it?"

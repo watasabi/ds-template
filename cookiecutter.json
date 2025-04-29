@@ -4,9 +4,11 @@
     "project_desc": "TODO",
 
     "__prompts__": {
-          "project_name": "Select your project name:",
-          "project_dir": "Select your project directory name:",
-          "project_desc": "A short project description:"
+          "project_name": "Select your project name.",
+          "project_dir": "Select your project directory name.",
+          "project_desc": "A short project description.",
+          "initialize_uv": "Would you like to setup UV package manager?",
+          "configure_remote": "Setup the remote repo?"
       }, 
       "_extensions": [
         "local_extensions.AdditionalPrompts"
