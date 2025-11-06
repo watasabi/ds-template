@@ -44,8 +44,8 @@ except ComputeTargetException:
     print("Compute target not found")
 
 ## setup environment
-env_name = "mlops-example-pipeline-env3"
-conda_dependencies_file_path = "./src/config/pipe_env/env.yml"
+env_name = "mlops-example-pipeline"
+conda_dependencies_file_path = "../config/pipe_env/env.yml"
 
 if compute_target is not None:
     compute_target.wait_for_completion(show_output=True)
@@ -85,7 +85,7 @@ if compute_target is not None:
     run.target = compute_target
 
 
-source_directory = "./src"
+source_directory = "./pipe/src"
 data_raw = PipelineData(
     "data_raw", datastore=datastore, output_path_on_compute="azureml/"
 )
