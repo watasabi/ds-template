@@ -31,7 +31,7 @@ def init_git():
         )
 
         subprocess.check_call(
-            ["git", "commit", "-m", "Initial commit from cookicutter."],
+            ["git", "commit", "-m", "chore: initial commit from cookiecutter"],
             cwd=PROJECT_DIRECTORY,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
