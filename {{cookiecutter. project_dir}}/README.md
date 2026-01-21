@@ -78,4 +78,4 @@ Este projeto segue uma estrutura padronizada para garantir reprodutibilidade.
 ├── .gitignore              # Arquivos a serem ignorados pelo git
 ├── LICENSE                 # Licença do projeto
 └── README.md               # Documentação principal
-
+```
