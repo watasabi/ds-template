@@ -92,7 +92,7 @@ def set_remote(url):
             stderr=subprocess.DEVNULL,
         )
         subprocess.check_call(
-            ["git", "push", "-u", "origin", "{{ cookiecutter.default_branch}}"],
+            ["git", "push", "-uf", "origin", "{{ cookiecutter.default_branch}}"],
             cwd=PROJECT_DIRECTORY,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,

@@ -1,100 +1,81 @@
-<a id="readme-top"></a>
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
+<a name="readme-top"></a>
+
+<div align="center">
+
+  <h1 align="center">{{ cookiecutter.project_name }}</h1>
+
+  <p align="center">
+    {{ cookiecutter.project_desc }}
+    <br />
+    <br />
+    <a href="#getting-started"><strong>Explorar a documentação »</strong></a>
+    <br />
+    <br />
+    <img src="https://img.shields.io/badge/Python-X.XX-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/Status-Development-yellow?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
+  </p>
+</div>
+
+<details>
+  <summary>📝 Tabela de Conteúdos</summary>
   <ol>
-    <li>
-      <a href="#{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}">{{ cookiecutter.project_name }}</a>
-    </li>
-    <li><a href="#author">Author</a></li>
-    <li><a href="#key-users">Key Users</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#setup-environment">Setup Environment</a></li>
-        <li><a href="#running">Running</a></li>
-      </ul>
-    </li>
-    <li><a href="#key-users">Key Users</a></li>
-    <li><a href="#data">Data</a></li>
-    <li><a href="#structure">Structure</a></li>
+    <li><a href="#sobre-o-projeto">Sobre o Projeto</a></li>
+    <li><a href="#organizacao-e-estrutura">Organização e Estrutura</a></li>
   </ol>
 </details>
 
+---
 
-# {{ cookiecutter.project_name }}
+## 🧐 Sobre o Projeto
 
-{{ cookiecutter.project_desc }}
+Uma breve descrição do contexto de negócio, objetivos e metodologia deste projeto.
 
-## Adjusting .gitignore
+### Principais Stakeholders
+* **Nome** (Area/Cargo) - [email@exemplo.com]
+* **Nome** (Area/Cargo) - [email@exemplo.com]
 
+<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
-Ensure you adjust the `.gitignore` file according to your project needs. For example, since this is a template, the `/data/` folder is commented out and data will not be exlucded from source control:
+## 📂 Organização e Estrutura
 
-```plaintext
-# exclude data from source control by default
-# /data/
-```
+Este projeto segue uma estrutura padronizada para garantir reprodutibilidade.
 
-Typically, you want to exclude this folder if it contains either sensitive data that you do not want to add to version control or large files.
+> **Nota sobre Convenção de Nomes:**
+> Arquivos numerados (ex: `01_load_data.py`) indicam **ordem de execução** em pipelines ou análises.
+> Código reutilizável (funções/classes) deve residir em `src/` ou `utils/` e ser importado.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Author
-
-- [{{ cookiecutter.full_name }}]({{ cookiecutter.email }})
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Key Users
-
-- [Nome](email)
-- [Nome](email)
-- [Nome](email)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Data
-
-```
-**TODO**
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Structure
-
-```
+```text
 .
-├── config
-│   └── pipe_env
-│       └── env.yml
-├── data
-│   ├── external
-│   ├── interim
-│   ├── processed
-│   └── raw
-├── LICENSE
-├── notebooks
-├── pipe
-│   ├── azureml_env_build.py
-│   ├── azureml_pipe_orchestrator.py
-│   ├── src
-│   │   ├── 01_load_data.py
-│   │   ├── 02_preprocessing.py
-│   │   ├── 03_model_inference.py
-│   │   ├── 04_post_processing.py
-│   │   └── __init__.py
-│   └── utils
-│       ├── compare_env_version.py
-│       └── __init__.py
-├── README.md
-├── references
-└── reports
-    └── figures
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+├── config/                 # Configurações globais e de ambiente
+│   └── pipe_env/           # Configs específicas do Pipeline (YAML, JSON)
+│
+├── data/                   # Dados do projeto (Geralmente ignorados pelo Git)
+│   ├── external/           # Dados de fontes terceiras
+│   ├── interim/            # Dados transformados intermediários
+│   ├── processed/          # Dados finais prontos para modelagem
+│   └── raw/                # Dados originais imutáveis
+│
+├── notebooks/              # Jupyter Notebooks para exploração e rascunho
+│   ├── eda/                # 00_eda, 01_analise_inicial...
+│   └── modeling/           # Testes de modelos antes da produção
+│
+├── pipe/                   # Orquestração e Pipeline de Produção
+│   ├── orchestrator.py     # Orquestrador (ex: Azure ML, Airflow)
+│   ├── src/                # Steps do pipeline (Scripts numerados)
+│   │   ├── 01_load.py
+│   │   ├── 02_preprocess.py
+│   │   ├── 03_inference.py
+│   │   └── 04_postprocess.py
+│   └── utils/              # Utilitários específicos do pipeline
+│
+├── reports/                # Relatórios gerados, html, pdf
+│   └── figures/            # Gráficos e imagens geradas pelos códigos
+│
+├── src/                    # Código Fonte Reutilizável (Library do projeto)
+│   └── __init__.py         # Funções de engenharia de features
+│
+├── .gitignore              # Arquivos a serem ignorados pelo git
+├── LICENSE                 # Licença do projeto
+└── README.md               # Documentação principal
 
