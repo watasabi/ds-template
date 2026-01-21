@@ -1,115 +1,105 @@
 import os
 import shutil
 import subprocess
+import sys
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 PYTHON_VERSION = "{{ cookiecutter.python_version }}"
+REMOTE_URL = "{{ cookiecutter.git_remote_url }}"
+USE_GIT = "{{ cookiecutter.use_git }}" == "True"
+INIT_UV = "{{ cookiecutter.init_uv }}" == "True"
 
 
-# Set up git repository
-def init_git():
+def run_command(command, cwd=PROJECT_DIRECTORY, ignore_errors=False):
+    """Executa comandos no shell de forma segura"""
     try:
         subprocess.check_call(
-            ["git", "init", "-b", "{{ cookiecutter.default_branch }}"],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            command,
+            cwd=cwd,
+            stdout=subprocess.DEVNULL if not ignore_errors else None,
+            stderr=subprocess.DEVNULL if not ignore_errors else None,
         )
-
-        subprocess.check_call(
-            ["git", "config", "--global", "--add", "safe.directory", PROJECT_DIRECTORY],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-
-        subprocess.check_call(
-            ["git", "add", "."],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-
-        subprocess.check_call(
-            ["git", "commit", "-m", "chore: initial commit from cookiecutter"],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-
-        print("Git repository initialized successfully!")
+        return True
     except subprocess.CalledProcessError as e:
-        print(f"Error initializing git repository: {e}")
+        if not ignore_errors:
+            print(f"❌ Erro ao executar {' '.join(command)}: {e}")
+        return False
 
 
-def copy_env():
-    src = os.path.join(PROJECT_DIRECTORY, "src/config/.env.example")
-    dst = os.path.join(PROJECT_DIRECTORY, "src/config/.env")
-    try:
-        shutil.move(src, dst)
-        print(".env file created successfully!")
-    except Exception as e:
-        print(f"Error creating .env file: {e}")
+def init_git_and_push():
+    print("\n🐙 Inicializando Git...")
+
+    if not run_command(["git", "init", "-b", "main"]):
+        return
+
+    run_command(["git", "add", "."])
+
+    run_command(["git", "commit", "-m", "chore: initial commit from template"])
+    print("✅ Git inicializado e commit realizado.")
+
+    if REMOTE_URL and REMOTE_URL.strip():
+        print(f"🚀 Configurando remote: {REMOTE_URL}")
+        run_command(["git", "remote", "add", "origin", REMOTE_URL])
+        run_command(["git", "branch", "-M", "main"])
+        print("📤 Realizando push inicial...")
+        if run_command(["git", "push", "-u", "origin", "main"]):
+            print("✅ Código enviado para o repositório remoto com sucesso!")
+        else:
+            print(
+                "⚠️ Falha no push. Verifique se o repositório existe e se você tem permissão."
+            )
+    else:
+        print("ℹ️ Nenhum remote configurado (URL vazia).")
 
 
-def create_gitingore():
-    gitignore_path = os.path.join(PROJECT_DIRECTORY, "data/.gitignore")
-    content = "#Exclude everything except the gitignore\n*\n!.gitignore\n"
-    try:
-        os.makedirs(os.path.dirname(gitignore_path), exist_ok=True)
-        with open(gitignore_path, "w") as f:
-            f.write(content)
-    except Exception as e:
-        print(f"Error creating .gitignore file in data folder: {e}")
+def create_gitignore():
+    gitignore_path = os.path.join(PROJECT_DIRECTORY, ".gitignore")
+    content = """
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+env/
+.env
+
+# Data (Ignora tudo, exceto .gitkeep)
+data/external/*
+data/interim/*
+data/processed/*
+data/raw/*
+!data/raw/.gitkeep
+models/*
+!models/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IDE
+.vscode/
+.idea/
+"""
+    with open(gitignore_path, "w") as f:
+        f.write(content.strip())
 
 
 def init_uv():
-    try:
-        subprocess.check_call(
-            ["uv", "init", "-p", PYTHON_VERSION, "--vcs", "none"],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-        # subprocess.check_call(
-        # ["uv", "python", "pin", version],
-        # cwd=PROJECT_DIRECTORY,
-        # stdout=subprocess.DEVNULL,
-        # stderr=subprocess.DEVNULL,
-        # )
-        main_path = os.path.join(PROJECT_DIRECTORY, "main.py")
-        os.unlink(main_path)
-    except subprocess.CalledProcessError as e:
-        print(f"Error initalizing uv: {e}")
+    print(f"\n📦 Inicializando UV (Python {PYTHON_VERSION})...")
+    if run_command(["uv", "init", "--python", PYTHON_VERSION, "--no-workspace"]):
+        for f in ["hello.py", "main.py"]:
+            p = os.path.join(PROJECT_DIRECTORY, f)
+            if os.path.exists(p):
+                os.remove(p)
 
-
-def set_remote(url):
-    try:
-        subprocess.check_call(
-            ["git", "remote", "add", "origin", url],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-        subprocess.check_call(
-            ["git", "push", "-uf", "origin", "{{ cookiecutter.default_branch}}"],
-            cwd=PROJECT_DIRECTORY,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-    except subprocess.CalledProcessError as e:
-        print(f"Error configuring remote: {e}")
+    else:
+        print("⚠️ uv não encontrado ou erro na inicialização.")
 
 
 if __name__ == "__main__":
-    create_gitingore()
+    create_gitignore()
 
-    if "{{cookiecutter.init_uv}}":
+    if INIT_UV:
         init_uv()
 
-    if "{{ cookiecutter.use_git }}":
-        init_git()
-
-    if "{{ cookiecutter.configure_remote}}":
-        set_remote("{{ cookiecutter.remote_url}}")
-    # copy_env()
+    if USE_GIT:
+        init_git_and_push()

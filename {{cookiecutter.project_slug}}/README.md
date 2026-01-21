@@ -1,21 +1,16 @@
 <a name="readme-top"></a>
 
 <div align="center">
-
   <h1 align="center">{{ cookiecutter.project_name }}</h1>
-
   <p align="center">
     {{ cookiecutter.project_desc }}
     <br />
     <br />
-    <a href="#getting-started"><strong>Explorar a documentação »</strong></a>
-    <br />
-    <br />
-    <img src="https://img.shields.io/badge/Python-X.XX-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/Python-{{ cookiecutter.python_version }}-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
     <img src="https://img.shields.io/badge/Status-Development-yellow?style=for-the-badge" alt="Status">
-    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
   </p>
 </div>
+
 
 <details>
   <summary>📝 Tabela de Conteúdos</summary>
@@ -26,6 +21,8 @@
 </details>
 
 ---
+
+
 
 ## 🧐 Sobre o Projeto
 
